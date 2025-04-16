@@ -1,9 +1,6 @@
 import "../styles/globals.css";
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
-import { Header, Footer } from "@/components";
-
-const inter = Inter({ subsets: ["latin"] });
+import { Header, Footer, Container } from "@/components";
 
 export const metadata: Metadata = {
   title: "Gerador de Currículo",
@@ -17,9 +14,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="pt-br">
-      <body className={inter.className}>
+      <body className="bg-slate-100">
         <Header />
-        {children}
+        <Container>{children}</Container>
         <Footer />
       </body>
     </html>

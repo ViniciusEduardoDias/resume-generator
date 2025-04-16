@@ -3,7 +3,7 @@ import { LuLogIn } from "react-icons/lu";
 
 export default function Header() {
   return (
-    <header className="flex justify-evenly p-2 items-center">
+    <header className="bg-white flex justify-evenly items-center">
       <div>
         <Image
           src={"/images/logoHeader.png"}
