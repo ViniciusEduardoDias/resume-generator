@@ -32,7 +32,7 @@ export default function Input({
         placeholder={placeholder}
         value={value}
         onChange={onChange}
-        className="input"
+        className="input focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
         required={required}
       />
     </div>

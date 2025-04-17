@@ -54,7 +54,7 @@ export default function PersonalForm() {
       >
         <h2 className="text-2xl font-bold text-gray-800">Dados Pessoais</h2>
 
-        <div className="grid grid-cols-1 gap-4">
+        <div className="flex flex-col gap-4">
           <Input
             type="text"
             name="nome"
@@ -76,7 +76,7 @@ export default function PersonalForm() {
               name="estadoCivil"
               value={formData.estadoCivil}
               onChange={handleChange}
-              className="p-2 border rounded text-gray-400 focus:text-black"
+              className="p-2 border rounded text-gray-400 focus:text-black focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
               required
             >
               <option value="">Estado Civil</option>
