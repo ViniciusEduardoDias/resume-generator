@@ -13,7 +13,7 @@ export default function Container({ children }: ContainerProps) {
   const showSidebar = pathname !== "/" && pathname !== "/finalizar";
 
   return (
-    <main className="w-4/5 sm:w-3/4 lg:2/3 flex items-start bg-slate-100 m-auto py-2">
+    <main className="w-4/5 sm:w-3/4 lg:2/3 flex justify-center items-start bg-slate-100 m-auto py-2">
       {showSidebar && (
         <aside className="w-64 mr-4">
           <StepSidebar />

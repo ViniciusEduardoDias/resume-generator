@@ -13,7 +13,8 @@ export default function PersonalForm() {
     estadoCivil: "",
     endereco: "",
     cidade: "",
-    contato: "",
+    telefone: "",
+    email: "",
   });
 
   const handleChange = (
@@ -104,17 +105,17 @@ export default function PersonalForm() {
           />
           <Input
             type="tel"
-            name="contato"
+            name="telefone"
             placeholder="Telefone"
-            value={formData.contato}
+            value={formData.telefone}
             onChange={handleChange}
             required
           />
           <Input
             type="email"
-            name="contato"
+            name="email"
             placeholder="E-mail"
-            value={formData.contato}
+            value={formData.email}
             onChange={handleChange}
             required
           />
