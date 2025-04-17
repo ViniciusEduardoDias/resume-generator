@@ -1,3 +1,5 @@
+import React from "react";
+
 type InputProps = {
   text?: string;
   type: string;
@@ -5,7 +7,7 @@ type InputProps = {
   placeholder: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   value: string | number;
-  required: boolean;
+  required?: boolean;
 };
 
 export default function Input({
@@ -15,11 +17,14 @@ export default function Input({
   placeholder,
   onChange,
   value,
+  required = false,
 }: InputProps) {
   return (
     <div>
       {text && (
-        <label className="text-xs text-slate-600 font-semibold">{text}</label>
+        <label className="w-full text-xs text-slate-600 font-semibold">
+          {text}
+        </label>
       )}
       <input
         type={type}
@@ -28,7 +33,7 @@ export default function Input({
         value={value}
         onChange={onChange}
         className="input"
-        required
+        required={required}
       />
     </div>
   );

@@ -1,7 +1,11 @@
+"use client";
+
 import Image from "next/image";
 import { LuLogIn } from "react-icons/lu";
+import { useRouter } from "next/navigation";
 
 export default function Header() {
+  const router = useRouter();
   return (
     <header className="bg-white flex justify-evenly items-center">
       <div>
@@ -11,6 +15,9 @@ export default function Header() {
           height={100}
           className="w-[150] h-[100]"
           alt="logo do Resume-Generator"
+          onClick={() => {
+            router.push("/");
+          }}
         />
       </div>
       <ul>

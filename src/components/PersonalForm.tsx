@@ -46,10 +46,10 @@ export default function PersonalForm() {
   };
 
   return (
-    <section>
+    <section className="w-full flex justify-center px-4">
       <form
         onSubmit={handleSubmit}
-        className="w-full mx-auto p-6 bg-white rounded-xl shadow-md space-y-6"
+        className="w-full max-w-2xl mx-auto p-6 bg-white rounded-xl shadow-md space-y-6"
       >
         <h2 className="text-2xl font-bold text-gray-800">Dados Pessoais</h2>
 
@@ -71,23 +71,19 @@ export default function PersonalForm() {
             required
           />
           <div className="flex flex-col">
-            <label className="ml-3 text-xs text-slate-600 font-semibold">
-              Estado Civil
-            </label>
             <select
               name="estadoCivil"
               value={formData.estadoCivil}
               onChange={handleChange}
-              className="p-2 border rounded"
+              className="p-2 border rounded text-gray-400 focus:text-black"
               required
             >
-              <option value="">Selecione</option>
+              <option value="">Estado Civil</option>
               <option value="Solteiro(a)">Solteiro(a)</option>
               <option value="Casado(a)">Casado(a)</option>
               <option value="Divorciado(a)">Divorciado(a)</option>
               <option value="Viúvo(a)">Viúvo(a)</option>
               <option value="União estável">União estável</option>
-              <option value="Divorciado(a)">Divorciado(a)</option>
             </select>
           </div>
           <Input
@@ -107,9 +103,17 @@ export default function PersonalForm() {
             required
           />
           <Input
-            type="text"
+            type="tel"
             name="contato"
-            placeholder="Telefone ou e-mail"
+            placeholder="Telefone"
+            value={formData.contato}
+            onChange={handleChange}
+            required
+          />
+          <Input
+            type="email"
+            name="contato"
+            placeholder="E-mail"
             value={formData.contato}
             onChange={handleChange}
             required
