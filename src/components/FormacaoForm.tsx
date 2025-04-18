@@ -37,6 +37,7 @@ export default function FormacaoForm() {
         <Input
           type="text"
           name="curso"
+          text="Nome do Curso"
           placeholder="Curso Realizado"
           value={formacao.curso}
           onChange={(e) => setFormacao({ ...formacao, curso: e.target.value })}
@@ -45,7 +46,8 @@ export default function FormacaoForm() {
         <Input
           type="text"
           name="instituicao"
-          placeholder="Instituição"
+          text="Instituição"
+          placeholder="Nome da Instituição de Ensino"
           value={formacao.instituicao}
           onChange={(e) =>
             setFormacao({ ...formacao, instituicao: e.target.value })
@@ -53,6 +55,9 @@ export default function FormacaoForm() {
           required
         />
         <div className="flex flex-col">
+          <label className="w-full text-xs text-slate-600 font-semibold">
+            Grau de Instrução
+          </label>
           <select
             name="estadoCivil"
             value={formacao.nivel}
@@ -62,17 +67,21 @@ export default function FormacaoForm() {
             className="p-2 border rounded text-gray-400 focus:text-black focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
             required
           >
-            <option value="">Estado Civil</option>
-            <option value="Solteiro(a)">Solteiro(a)</option>
-            <option value="Casado(a)">Casado(a)</option>
-            <option value="Divorciado(a)">Divorciado(a)</option>
-            <option value="Viúvo(a)">Viúvo(a)</option>
-            <option value="União estável">União estável</option>
+            <option value="">Ensino Fundamental</option>
+            <option value="Solteiro(a)">Ensino Médio</option>
+            <option value="Casado(a)">Ensino Superior</option>
+            <option value="Divorciado(a)">Graduação</option>
+            <option value="Viúvo(a)">Bacharelado</option>
+            <option value="União estável">Licenciatura</option>
+            <option value="União estável">Pós-Graduação</option>
+            <option value="União estável">Mestrado</option>
+            <option value="União estável">Doutorado</option>
           </select>
         </div>
         <Input
           type="date"
           name="conclusao"
+          text="Data de Conclusão"
           placeholder="Ano de Conclusão"
           value={formacao.conclusao.toISOString().split("T")[0]}
           onChange={(e) =>

@@ -10,10 +10,11 @@ type ContainerProps = {
 
 export default function Container({ children }: ContainerProps) {
   const pathname = usePathname();
-  const showSidebar = pathname !== "/" && pathname !== "/finalizar";
+  const showSidebar =
+    pathname !== "/" && pathname !== "/finalizar" && pathname !== "/download";
 
   return (
-    <main className="w-4/5 sm:w-3/4 lg:2/3 flex justify-center items-start bg-slate-100 m-auto py-2">
+    <main className="w-full sm:w-3/4 lg:w-2/3 flex flex-col md:flex-row justify-center items-center md:items-start bg-slate-100 m-auto py-2">
       {showSidebar && (
         <aside className="w-64 mr-4">
           <StepSidebar />

@@ -58,6 +58,7 @@ export default function PersonalForm() {
           <Input
             type="text"
             name="nome"
+            text="Nome"
             placeholder="Nome completo"
             value={formData.nome}
             onChange={handleChange}
@@ -66,12 +67,16 @@ export default function PersonalForm() {
           <Input
             type="number"
             name="idade"
+            text="Idade"
             placeholder="Idade"
             value={formData.idade}
             onChange={handleChange}
             required
           />
           <div className="flex flex-col">
+            <label className="w-full text-xs text-slate-600 font-semibold">
+              Estado Civil
+            </label>
             <select
               name="estadoCivil"
               value={formData.estadoCivil}
@@ -90,7 +95,8 @@ export default function PersonalForm() {
           <Input
             type="text"
             name="endereco"
-            placeholder="Endereço (Logradouro, Número)"
+            text="Endereço"
+            placeholder="Logradouro, Número"
             value={formData.endereco}
             onChange={handleChange}
             required
@@ -98,6 +104,7 @@ export default function PersonalForm() {
           <Input
             type="text"
             name="cidade"
+            text="Cidade"
             placeholder="Cidade"
             value={formData.cidade}
             onChange={handleChange}
@@ -106,6 +113,7 @@ export default function PersonalForm() {
           <Input
             type="tel"
             name="telefone"
+            text="Telefone"
             placeholder="Telefone"
             value={formData.telefone}
             onChange={handleChange}
@@ -114,7 +122,8 @@ export default function PersonalForm() {
           <Input
             type="email"
             name="email"
-            placeholder="E-mail"
+            text="E-mail"
+            placeholder="exemplo123@email.com"
             value={formData.email}
             onChange={handleChange}
             required

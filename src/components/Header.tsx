@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { LuLogIn } from "react-icons/lu";
+//import { LuLogIn } from "react-icons/lu";
 import { useRouter } from "next/navigation";
 
 export default function Header() {
@@ -20,12 +20,14 @@ export default function Header() {
           }}
         />
       </div>
-      <ul>
+
+      {/*ideia para implementação de login}
+      /* <ul>
         <li className="flex items-center gap-2 hover:text-slate-500 cursor-pointer">
           <LuLogIn />
           Login
         </li>
-      </ul>
+      </ul> */}
     </header>
   );
 }
