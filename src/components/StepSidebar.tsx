@@ -20,8 +20,12 @@ const steps: Step[] = [
   { name: "Objetivo", path: "/objetivo", icon: <FaBullseye /> },
   { name: "Formação", path: "/formacao", icon: <HiAcademicCap /> },
   { name: "Experiência", path: "/experiencia", icon: <MdWork /> },
-  { name: "Foto", path: "/photo", icon: <MdAddPhotoAlternate /> },
-  { name: "Paleta de Cores", path: "/cor", icon: <IoColorPaletteSharp /> },
+  { name: "Foto", path: "/foto", icon: <MdAddPhotoAlternate /> },
+  {
+    name: "Paleta de Cores",
+    path: "/escolhaCor",
+    icon: <IoColorPaletteSharp />,
+  },
 ];
 
 function StepSidebar() {
@@ -35,7 +39,7 @@ function StepSidebar() {
           key={step.name}
           className={`flex items-center gap-2 p-2 rounded transition cursor-pointer ${
             pathname === step.path
-              ? "bg-blue-100 text-blue-700 font-semibold"
+              ? "bg-yellow-300 text-black font-semibold"
               : "text-gray-600"
           }`}
           onClick={() => router.push(`${step.path}`)}
