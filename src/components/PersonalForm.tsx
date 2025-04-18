@@ -1,17 +1,18 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useFormData } from "@/hooks/useFormData";
 import Input from "./Input";
+import { DadosPessoais } from "@/types/FormTypes";
 
 export default function PersonalForm() {
   const router = useRouter();
-  const { update } = useFormData();
+  const { get, update } = useFormData();
 
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<DadosPessoais>({
     nome: "",
-    idade: "",
+    idade: 0,
     estadoCivil: "",
     endereco: "",
     cidade: "",
@@ -19,11 +20,22 @@ export default function PersonalForm() {
     email: "",
   });
 
+  useEffect(() => {
+    const saved = get();
+    if (saved.dadosPessoais) {
+      setFormData(saved.dadosPessoais);
+    }
+  }, [get]);
+
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
   ) => {
     const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
+
+    setFormData((prev) => ({
+      ...prev,
+      [name]: name === "idade" ? Number(value) : value,
+    }));
   };
 
   function capitalizeWords(text: string) {
@@ -39,15 +51,14 @@ export default function PersonalForm() {
 
     update({
       dadosPessoais: {
+        ...formData,
         nome: capitalizeWords(formData.nome),
-        idade: formData.idade,
-        estadoCivil: formData.estadoCivil,
         endereco: capitalizeWords(formData.endereco),
         cidade: capitalizeWords(formData.cidade),
-        telefone: formData.telefone,
-        email: formData.email,
+        idade: Number(formData.idade),
       },
     });
+
     router.push("/objetivo");
   };
 
@@ -74,7 +85,7 @@ export default function PersonalForm() {
             name="idade"
             text="Idade"
             placeholder="Idade"
-            value={formData.idade}
+            value={formData.idade.toString()}
             onChange={handleChange}
             required
           />

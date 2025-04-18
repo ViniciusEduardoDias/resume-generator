@@ -4,22 +4,19 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Input from "./Input";
 import { FaTrashAlt } from "react-icons/fa";
-
-type Formacao = {
-  instituicao: string;
-  curso: string;
-  nivel: string;
-  conclusao: Date;
-};
+import { useFormData } from "@/hooks/useFormData";
+import { Formacao } from "@/types/FormTypes";
 
 export default function FormacaoForm() {
   const router = useRouter();
+  const { update } = useFormData();
+
   const [formacoes, setFormacoes] = useState<Formacao[]>([]);
   const [formacao, setFormacao] = useState<Formacao>({
     instituicao: "",
     curso: "",
     nivel: "",
-    conclusao: new Date(),
+    conclusao: "",
   });
 
   function formatText(text: string) {
@@ -32,7 +29,7 @@ export default function FormacaoForm() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    localStorage.setItem("formacoes", JSON.stringify(formacoes));
+    update({ formacoes }); // ✅ plural
     router.push("/experiencia");
   };
 
@@ -44,12 +41,13 @@ export default function FormacaoForm() {
       conclusao: formacao.conclusao,
     };
 
-    setFormacoes([...formacoes, novaFormacao]);
+    setFormacoes((prev) => [...prev, novaFormacao]);
+
     setFormacao({
       curso: "",
       instituicao: "",
       nivel: "",
-      conclusao: new Date(),
+      conclusao: "",
     });
   };
 
@@ -110,15 +108,16 @@ export default function FormacaoForm() {
           name="conclusao"
           text="Data de Conclusão"
           placeholder="Ano de Conclusão"
-          value={formacao.conclusao.toISOString().split("T")[0]}
+          value={formacao.conclusao}
           onChange={(e) =>
             setFormacao({
               ...formacao,
-              conclusao: new Date(e.target.value),
+              conclusao: e.target.value,
             })
           }
           required
         />
+
         <button
           type="button"
           onClick={handleAddFormacao}
@@ -126,6 +125,7 @@ export default function FormacaoForm() {
         >
           Adicionar Formação
         </button>
+
         {formacoes.length > 0 && (
           <div className="mt-6">
             <h3 className="text-lg font-semibold text-gray-700 mb-2">
@@ -150,9 +150,7 @@ export default function FormacaoForm() {
                   <button
                     type="button"
                     onClick={() =>
-                      setFormacoes(
-                        formacoes.filter((formacao, i) => i !== index)
-                      )
+                      setFormacoes(formacoes.filter((_, i) => i !== index))
                     }
                     className="absolute top-3 right-3 text-white hover:underline text-sm"
                   >

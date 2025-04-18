@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useFormData } from "@/hooks/useFormData";
+import CharacterCounter from "./CharacterCounter";
 
 export default function ObjectiveForm() {
   const router = useRouter();
@@ -13,9 +14,10 @@ export default function ObjectiveForm() {
   function formatText(text: string) {
     return text
       .trim()
-      .replace(/\s*([.,;:!?])\s*/g, "$1 ")
-      .replace(/\.\s*(\w)/g, (match, p1) => `. ${p1.toUpperCase()}`)
-      .replace(/(^\w)/, (match) => match.toUpperCase());
+      .replace(/\s+/g, " ") // remove espaços duplicados
+      .replace(/\s*([.,;:!?])\s*/g, "$1 ") // adiciona espaço após pontuação
+      .replace(/\. +([a-z])/g, (_, char) => `. ${char.toUpperCase()}`) // maiúscula após ponto
+      .replace(/^./, (match) => match.toUpperCase()); // primeira letra maiúscula
   }
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -37,53 +39,65 @@ export default function ObjectiveForm() {
     const perfilFormatado = formatText(perfil);
 
     update({
-      objetivoProfissional: objetivoFormatado,
-      perfilPessoal: perfilFormatado,
+      objetivoProfissional: {
+        objetivoProfissional: objetivoFormatado,
+        perfilPessoal: perfilFormatado,
+      },
     });
 
     router.push("/formacao");
   };
 
   return (
-    <section className="max-w-2xl p-6 mx-auto bg-white rounded-xl shadow-md">
-      <h2 className="text-2xl font-bold text-gray-800 mb-4">
+    <section className="max-w-2xl p-6 mx-auto bg-white rounded-xl shadow-md space-y-6">
+      <h2 className="text-2xl font-bold text-gray-800">
         Objetivo Profissional
       </h2>
       <form onSubmit={handleSubmit} className="space-y-6">
         <div className="relative">
+          <label htmlFor="objetivo" className="sr-only">
+            Objetivo Profissional
+          </label>
           <textarea
+            id="objetivo"
             name="objetivo"
             placeholder="Descreva seu objetivo profissional..."
             value={objetivo}
             maxLength={700}
-            onChange={(e) => setObjetivo(e.target.value)}
+            onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
+              setObjetivo(e.target.value)
+            }
             className="w-full h-40 p-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
             required
           />
-          <div className="text-sm text-right text-gray-500">
-            {objetivo.length}/700
-          </div>
+          <CharacterCounter count={objetivo.length} max={700} />
         </div>
 
-        <h2 className="text-2xl font-bold text-gray-800 mb-4">
-          Perfil Pessoal
-        </h2>
-        <h3>
-          Nessa etapa, digite um texto falando sobre sua trajetória e o que
-          conseguiu desenvolver.
-        </h3>
-        <div className="relative">
-          <textarea
-            name="perfil"
-            maxLength={700}
-            placeholder="Descreva seu perfil pessoal..."
-            value={perfil}
-            onChange={(e) => setPerfil(e.target.value)}
-            className="w-full h-40 p-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
-            required
-          />
-          <div className="text-sm text-right text-gray-500">
-            {perfil.length}/700
+        <div>
+          <h2 className="text-2xl font-bold text-gray-800 mb-2">
+            Perfil Pessoal
+          </h2>
+          <h3 className="text-sm text-gray-600 mb-2">
+            Nessa etapa, digite um texto falando sobre sua trajetória e o que
+            conseguiu desenvolver.
+          </h3>
+          <div className="relative">
+            <label htmlFor="perfil" className="sr-only">
+              Perfil Pessoal
+            </label>
+            <textarea
+              id="perfil"
+              name="perfil"
+              maxLength={700}
+              placeholder="Descreva seu perfil pessoal..."
+              value={perfil}
+              onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>
+                setPerfil(e.target.value)
+              }
+              className="w-full h-40 p-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
+              required
+            />
+            <CharacterCounter count={perfil.length} max={700} />
           </div>
         </div>
         <button
