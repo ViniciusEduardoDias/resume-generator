@@ -2,10 +2,12 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useFormData } from "@/hooks/useFormData";
 import Input from "./Input";
 
 export default function PersonalForm() {
   const router = useRouter();
+  const { update } = useFormData();
 
   const [formData, setFormData] = useState({
     nome: "",
@@ -35,14 +37,17 @@ export default function PersonalForm() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    const formattedData = {
-      ...formData,
-      nome: capitalizeWords(formData.nome),
-      endereco: capitalizeWords(formData.endereco),
-      cidade: capitalizeWords(formData.cidade),
-    };
-
-    localStorage.setItem("dadosPessoais", JSON.stringify(formattedData));
+    update({
+      dadosPessoais: {
+        nome: capitalizeWords(formData.nome),
+        idade: formData.idade,
+        estadoCivil: formData.estadoCivil,
+        endereco: capitalizeWords(formData.endereco),
+        cidade: capitalizeWords(formData.cidade),
+        telefone: formData.telefone,
+        email: formData.email,
+      },
+    });
     router.push("/objetivo");
   };
 

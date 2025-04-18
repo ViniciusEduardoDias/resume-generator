@@ -2,11 +2,21 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useFormData } from "@/hooks/useFormData";
 
 export default function ObjectiveForm() {
   const router = useRouter();
   const [objetivo, setObjetivo] = useState("");
   const [perfil, setPerfil] = useState("");
+  const { update } = useFormData();
+
+  function formatText(text: string) {
+    return text
+      .trim()
+      .replace(/\s*([.,;:!?])\s*/g, "$1 ")
+      .replace(/\.\s*(\w)/g, (match, p1) => `. ${p1.toUpperCase()}`)
+      .replace(/(^\w)/, (match) => match.toUpperCase());
+  }
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -23,8 +33,13 @@ export default function ObjectiveForm() {
       return;
     }
 
-    localStorage.setItem("objetivoProfissional", objetivo.trim());
-    localStorage.setItem("perfilPessoal", perfil.trim());
+    const objetivoFormatado = formatText(objetivo);
+    const perfilFormatado = formatText(perfil);
+
+    update({
+      objetivoProfissional: objetivoFormatado,
+      perfilPessoal: perfilFormatado,
+    });
 
     router.push("/formacao");
   };
