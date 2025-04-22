@@ -48,7 +48,6 @@ export default function PersonalForm() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-
     update({
       dadosPessoais: {
         ...formData,
@@ -58,8 +57,8 @@ export default function PersonalForm() {
         idade: Number(formData.idade),
       },
     });
-
     router.push("/objetivo");
+    console.log(formData);
   };
 
   return (

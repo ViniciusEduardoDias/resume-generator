@@ -9,7 +9,7 @@ export default function ObjectiveForm() {
   const router = useRouter();
   const [objetivo, setObjetivo] = useState("");
   const [perfil, setPerfil] = useState("");
-  const { update } = useFormData();
+  const { get, update } = useFormData();
 
   function formatText(text: string) {
     return text
@@ -44,6 +44,10 @@ export default function ObjectiveForm() {
         perfilPessoal: perfilFormatado,
       },
     });
+
+    // Verificando se os dados foram atualizados corretamente
+    const updatedData = get(); // Aqui, estamos pegando os dados atualizados
+    console.log(updatedData); // Imprimindo o objeto atualizado
 
     router.push("/formacao");
   };

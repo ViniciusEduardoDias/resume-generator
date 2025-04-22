@@ -1,5 +1,5 @@
 import { useCallback } from "react";
-import { FormDataCompleto } from "@/types/FormTypes";
+import { FormDataCompleto} from "@/types/FormTypes";
 
 export const useFormData = () => {
   const storageKey = "formData";

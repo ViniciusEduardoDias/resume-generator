@@ -37,12 +37,12 @@ export default function ExpForm() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    // Atualiza o objeto completo no localStorage
     update({
       experiencias: experiencias,
     });
-
-    router.push("/escolhaCor");
+    const updatedData = get();
+    console.log(updatedData);
+    router.push("/foto");
   };
 
   return (
@@ -61,7 +61,6 @@ export default function ExpForm() {
           onChange={(e) =>
             setExperiencia({ ...experiencia, empresa: e.target.value })
           }
-          required
         />
         <Input
           type="text"
@@ -72,7 +71,6 @@ export default function ExpForm() {
           onChange={(e) =>
             setExperiencia({ ...experiencia, cargo: e.target.value })
           }
-          required
         />
         <Input
           type="date"
@@ -89,7 +87,6 @@ export default function ExpForm() {
               admissao: new Date(e.target.value),
             })
           }
-          required
         />
         <Input
           type="date"
@@ -106,7 +103,6 @@ export default function ExpForm() {
               encerramento: new Date(e.target.value),
             })
           }
-          required
         />
         <div>
           <label className="w-full text-xs text-slate-600 font-semibold">
@@ -123,7 +119,6 @@ export default function ExpForm() {
               })
             }
             className="w-full h-40 p-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
-            required
           />
         </div>
 
@@ -147,6 +142,16 @@ export default function ExpForm() {
         >
           Adicionar Experiência
         </button>
+
+        {experiencias.length === 0 && (
+          <div className="mt-6 bg-yellow-100 text-yellow-700 p-4 rounded-md">
+            <p>
+              Você ainda não adicionou nenhuma experiência profissional.
+              Capriche no preenchimento do seu perfil para deixar o documento
+              mais completo e impressionante!
+            </p>
+          </div>
+        )}
 
         {experiencias.length > 0 && (
           <div className="mt-6">

@@ -9,7 +9,7 @@ import { Formacao } from "@/types/FormTypes";
 
 export default function FormacaoForm() {
   const router = useRouter();
-  const { update } = useFormData();
+  const { get, update } = useFormData();
 
   const [formacoes, setFormacoes] = useState<Formacao[]>([]);
   const [formacao, setFormacao] = useState<Formacao>({
@@ -29,7 +29,9 @@ export default function FormacaoForm() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    update({ formacoes }); // ✅ plural
+    update({ formacoes });
+    const updatedData = get(); // Aqui, estamos pegando os dados atualizados
+    console.log(updatedData); // Imprimindo o objeto atualizado
     router.push("/experiencia");
   };
 
@@ -65,7 +67,6 @@ export default function FormacaoForm() {
           placeholder="Curso Realizado"
           value={formacao.curso}
           onChange={(e) => setFormacao({ ...formacao, curso: e.target.value })}
-          required
         />
         <Input
           type="text"
@@ -76,7 +77,6 @@ export default function FormacaoForm() {
           onChange={(e) =>
             setFormacao({ ...formacao, instituicao: e.target.value })
           }
-          required
         />
         <div className="flex flex-col">
           <label className="w-full text-xs text-slate-600 font-semibold">
@@ -89,7 +89,6 @@ export default function FormacaoForm() {
               setFormacao({ ...formacao, nivel: e.target.value })
             }
             className="p-2 border rounded text-gray-400 focus:text-black focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
-            required
           >
             <option value="">Selecione um grau</option>
             <option value="Ensino Fundamental">Ensino Fundamental</option>
@@ -115,7 +114,6 @@ export default function FormacaoForm() {
               conclusao: e.target.value,
             })
           }
-          required
         />
 
         <button
