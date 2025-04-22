@@ -1,31 +1,30 @@
 import { useCallback } from "react";
 import { FormDataCompleto } from "@/types/FormTypes";
-import { ExperienciaProfissional } from "@/types/FormTypes";
 
 export const useFormData = () => {
   const storageKey = "formData";
 
   const get = useCallback((): FormDataCompleto => {
-    if (typeof window === "undefined") return {} as FormDataCompleto;
+    if (typeof window === "undefined") return { modelo: "" };
 
     const rawData = localStorage.getItem(storageKey);
-    if (!rawData) return {} as FormDataCompleto;
+    if (!rawData) return { modelo: "" };
 
-    const data = JSON.parse(rawData);
+    const data: FormDataCompleto = JSON.parse(rawData);
 
+    // Corrige idade se necessário
     if (data.dadosPessoais?.idade)
       data.dadosPessoais.idade = Number(data.dadosPessoais.idade);
 
+    // Corrige datas de experiências
     if (data.experiencias?.length) {
-      data.experiencias = data.experiencias.map(
-        (exp: Partial<ExperienciaProfissional>) => ({
-          ...exp,
-          admissao: exp.admissao ? new Date(exp.admissao) : undefined,
-          encerramento: exp.encerramento
-            ? new Date(exp.encerramento)
-            : undefined,
-        })
-      );
+      data.experiencias = data.experiencias.map((exp) => ({
+        ...exp,
+        admissao: exp.admissao ? new Date(exp.admissao) : new Date(),
+        encerramento: exp.encerramento
+          ? new Date(exp.encerramento)
+          : new Date(),
+      }));
     }
 
     return data;
@@ -36,7 +35,11 @@ export const useFormData = () => {
       if (typeof window === "undefined") return;
 
       const currentData = get();
-      const merged = { ...currentData, ...newData };
+      const merged: FormDataCompleto = {
+        ...currentData,
+        ...newData,
+        modelo: newData.modelo ?? currentData.modelo ?? "",
+      };
 
       localStorage.setItem(storageKey, JSON.stringify(merged));
     },

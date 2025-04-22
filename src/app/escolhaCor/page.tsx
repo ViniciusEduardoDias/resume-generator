@@ -7,6 +7,8 @@ import ColorsDiv from "@/components/ColorsDiv";
 const ColorPage = () => {
   const router = useRouter();
   const [color, setColor] = useState("");
+  //const [modelo, setModelo] = useState("");
+  const cores = ["yellow", "gray", "pink", "blue", "green"];
 
   const changeColor = (newColor: string) => {
     setColor(newColor);
@@ -14,11 +16,11 @@ const ColorPage = () => {
 
   const createFile = () => {
     console.log("Cor selecionada:", color);
+    console.log(localStorage.getItem("FormData"));
+   // console.log("Modelo Selecionado: " modelo)
     // Aqui você pode redirecionar ou salvar a cor junto ao restante dos dados
     router.push("/");
   };
-
-  const cores = ["yellow", "gray", "pink", "blue", "green"];
 
   return (
     <section className="w-full mt-6 p-6 mx-auto bg-white rounded-xl shadow-md">

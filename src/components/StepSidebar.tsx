@@ -39,7 +39,7 @@ function StepSidebar() {
           key={step.name}
           className={`flex items-center gap-2 p-2 rounded transition cursor-pointer ${
             pathname === step.path
-              ? "bg-yellow-300 text-black font-semibold"
+              ? "bg-yellow-200 text-black font-semibold"
               : "text-gray-600"
           }`}
           onClick={() => router.push(`${step.path}`)}

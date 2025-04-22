@@ -11,7 +11,10 @@ type ContainerProps = {
 export default function Container({ children }: ContainerProps) {
   const pathname = usePathname();
   const showSidebar =
-    pathname !== "/" && pathname !== "/finalizar" && pathname !== "/download";
+    pathname !== "/" &&
+    pathname !== "/finalizar" &&
+    pathname !== "/download" &&
+    pathname !== "/modelo";
 
   return (
     <main className="w-full sm:w-3/4 lg:w-2/3 flex flex-col md:flex-row justify-center items-center md:items-start bg-slate-100 m-auto py-2">
