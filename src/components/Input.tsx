@@ -8,6 +8,7 @@ type InputProps = {
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   value: string | number;
   required?: boolean;
+  min?: number;
 };
 
 export default function Input({

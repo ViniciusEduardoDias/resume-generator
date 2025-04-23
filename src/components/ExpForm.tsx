@@ -17,8 +17,8 @@ export default function ExpForm() {
   const [experiencia, setExperiencia] = useState<ExperienciaProfissional>({
     empresa: "",
     cargo: "",
-    admissao: new Date(),
-    encerramento: new Date(),
+    admissao: "",
+    encerramento: "",
     funcoes: [],
   });
 
@@ -76,15 +76,11 @@ export default function ExpForm() {
           type="date"
           name="admissao"
           text="Data de Admissão"
-          value={
-            experiencia.admissao
-              ? new Date(experiencia.admissao).toISOString().split("T")[0]
-              : ""
-          }
+          value={experiencia.admissao}
           onChange={(e) =>
             setExperiencia({
               ...experiencia,
-              admissao: new Date(e.target.value),
+              admissao: e.target.value,
             })
           }
         />
@@ -92,15 +88,11 @@ export default function ExpForm() {
           type="date"
           name="encerramento"
           text="Data de Encerramento"
-          value={
-            experiencia.encerramento
-              ? new Date(experiencia.encerramento).toISOString().split("T")[0]
-              : ""
-          }
+          value={experiencia.encerramento}
           onChange={(e) =>
             setExperiencia({
               ...experiencia,
-              encerramento: new Date(e.target.value),
+              encerramento: e.target.value,
             })
           }
         />
@@ -133,8 +125,8 @@ export default function ExpForm() {
             setExperiencia({
               empresa: "",
               cargo: "",
-              admissao: new Date(),
-              encerramento: new Date(),
+              admissao: "",
+              encerramento: "",
               funcoes: [],
             });
           }}

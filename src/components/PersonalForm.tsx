@@ -18,6 +18,7 @@ export default function PersonalForm() {
     cidade: "",
     telefone: "",
     email: "",
+    genero: "",
   });
 
   useEffect(() => {
@@ -38,6 +39,57 @@ export default function PersonalForm() {
     }));
   };
 
+  function formatarEstadoCivil(estadoCivil: string, genero: string) {
+    const estados: Record<
+      string,
+      {
+        masculino: string;
+        feminino: string;
+        outro?: string;
+        nao_informado?: string;
+      }
+    > = {
+      "Solteiro(a)": {
+        masculino: "Solteiro",
+        feminino: "Solteira",
+      },
+      "Casado(a)": {
+        masculino: "Casado",
+        feminino: "Casada",
+      },
+      "Divorciado(a)": {
+        masculino: "Divorciado",
+        feminino: "Divorciada",
+      },
+      "Viúvo(a)": {
+        masculino: "Viúvo",
+        feminino: "Viúva",
+      },
+      "União estável": {
+        masculino: "Em união estável",
+        feminino: "Em união estável",
+        outro: "Em união estável",
+        nao_informado: "Em união estável",
+      },
+    };
+
+    if (!estadoCivil) return "";
+
+    const generoKey =
+      genero === "masculino"
+        ? "masculino"
+        : genero === "feminino"
+        ? "feminino"
+        : genero === "nao_informado"
+        ? "nao_informado"
+        : "outro";
+
+    const estado = estados[estadoCivil];
+    if (!estado) return estadoCivil;
+
+    return estado[generoKey] ?? estado["outro"] ?? estadoCivil;
+  }
+
   function capitalizeWords(text: string) {
     return text
       .toLowerCase()
@@ -48,6 +100,16 @@ export default function PersonalForm() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
+    if (formData.idade < 0) {
+      alert("A idade não pode ser negativa.");
+      return;
+    }
+
+    const estadoCivilFormatado = formatarEstadoCivil(
+      formData.estadoCivil,
+      formData.genero
+    );
+
     update({
       dadosPessoais: {
         ...formData,
@@ -55,10 +117,11 @@ export default function PersonalForm() {
         endereco: capitalizeWords(formData.endereco),
         cidade: capitalizeWords(formData.cidade),
         idade: Number(formData.idade),
+        estadoCivil: estadoCivilFormatado,
       },
     });
+
     router.push("/objetivo");
-    console.log(formData);
   };
 
   return (
@@ -86,8 +149,27 @@ export default function PersonalForm() {
             placeholder="Idade"
             value={formData.idade.toString()}
             onChange={handleChange}
+            min={0}
             required
           />
+          <div className="flex flex-col">
+            <label className="w-full text-xs text-slate-600 font-semibold">
+              Gênero
+            </label>
+            <select
+              name="genero"
+              value={formData.genero}
+              onChange={handleChange}
+              className="p-2 border rounded text-gray-400 focus:text-black focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
+              required
+            >
+              <option value="">Gênero</option>
+              <option value="masculino">Masculino</option>
+              <option value="feminino">Feminino</option>
+              <option value="outro">Outro</option>
+              <option value="nao_informado">Prefiro não informar</option>
+            </select>
+          </div>
           <div className="flex flex-col">
             <label className="w-full text-xs text-slate-600 font-semibold">
               Estado Civil

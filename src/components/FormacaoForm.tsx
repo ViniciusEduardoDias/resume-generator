@@ -90,7 +90,7 @@ export default function FormacaoForm() {
             }
             className="p-2 border rounded text-gray-400 focus:text-black focus:outline-none focus:ring-2 focus:ring-blue-500 resize-none"
           >
-            <option value="">Selecione um grau</option>
+            <option value="">Selecione um nível de Ensino</option>
             <option value="Ensino Fundamental">Ensino Fundamental</option>
             <option value="Ensino Médio">Ensino Médio</option>
             <option value="Ensino Superior">Ensino Superior</option>

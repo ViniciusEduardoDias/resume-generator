@@ -83,16 +83,12 @@ const ColorPage = () => {
 
         <div className="flex gap-4 flex-wrap">
           {cores.map((color) => (
-            <div key={color} className="flex flex-col items-center gap-2">
+            <div
+              key={color}
+              className="flex flex-col items-center gap-2"
+              onClick={() => selectColor(color)}
+            >
               <ColorsDiv color={color} />
-              <button
-                onClick={() => selectColor(color)}
-                className={`px-3 py-1 rounded text-white ${
-                  selectedColor === color ? "bg-blue-600" : "bg-gray-500"
-                } hover:opacity-90 transition`}
-              >
-                {selectedColor === color ? "Selecionado" : "Selecionar"}
-              </button>
             </div>
           ))}
         </div>
@@ -108,16 +104,12 @@ const ColorPage = () => {
         </h2>
         <div className="flex gap-6 flex-wrap">
           {modelos.map((modelo) => (
-            <div key={modelo.id} className="flex flex-col items-center gap-2">
+            <div
+              key={modelo.id}
+              onClick={() => selectModel(modelo.id)}
+              className="flex flex-col items-center gap-2"
+            >
               <CardModel model={selectedModel} modelo={modelo} />
-              <button
-                onClick={() => selectModel(modelo.id)}
-                className={`px-3 py-1 rounded text-white ${
-                  selectedModel === modelo.id ? "bg-blue-600" : "bg-gray-500"
-                } hover:opacity-90 transition`}
-              >
-                {selectedModel === modelo.id ? "Selecionado" : "Selecionar"}
-              </button>
             </div>
           ))}
         </div>

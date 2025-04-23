@@ -6,6 +6,7 @@ export type DadosPessoais = {
   cidade: string;
   telefone: string;
   email: string;
+  genero: string;
 };
 
 export type ObjetivoProfissional = {
@@ -23,8 +24,8 @@ export type Formacao = {
 export type ExperienciaProfissional = {
   empresa: string;
   cargo: string;
-  admissao: Date;
-  encerramento: Date;
+  admissao: string;
+  encerramento: string;
   funcoes: string[];
 };
 
