@@ -140,7 +140,8 @@ const CurriculoModelo01: React.FC = () => {
 
   const headerStyle = {
     ...styles.header,
-    backgroundColor: darkColors[color] || "#333",
+    backgroundColor:
+      (color && darkColors[color as keyof typeof darkColors]) || "#333333",
   };
 
   return (

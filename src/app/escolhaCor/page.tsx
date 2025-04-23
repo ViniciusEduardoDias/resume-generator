@@ -67,7 +67,7 @@ const ColorPage = () => {
 
     console.log(formData);
     clear();
-    setTimeout(() => router.push("/"), 1000);
+    setTimeout(() => router.push("/successPage"), 1000);
   };
 
   return (
