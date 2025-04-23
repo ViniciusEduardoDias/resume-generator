@@ -132,7 +132,10 @@ const ModeloCurriculo: React.FC = () => {
       <Page size="A4" style={styles.page}>
         {/* Barra Lateral */}
         <View style={[styles.sidebar, { backgroundColor: corLateral }]}>
-          {foto && <Image src={foto} style={styles.image} />}
+          {foto && (
+            // eslint-disable-next-line jsx-a11y/alt-text
+            <Image src={foto} style={styles.image} />
+          )}
           <Text style={{ fontSize: 18, marginBottom: 8 }}>
             {dadosPessoais.nome}
           </Text>

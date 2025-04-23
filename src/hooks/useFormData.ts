@@ -1,14 +1,14 @@
 import { useCallback } from "react";
-import { FormDataCompleto} from "@/types/FormTypes";
+import { FormDataCompleto } from "@/types/FormTypes";
 
 export const useFormData = () => {
   const storageKey = "formData";
 
   const get = useCallback((): FormDataCompleto => {
-    if (typeof window === "undefined") return { modelo: "" };
+    if (typeof window === "undefined") return { modelo: "", color: "" };
 
     const rawData = localStorage.getItem(storageKey);
-    if (!rawData) return { modelo: "" };
+    if (!rawData) return { modelo: "", color: "" };
 
     const data: FormDataCompleto = JSON.parse(rawData);
 
@@ -20,10 +20,12 @@ export const useFormData = () => {
     if (data.experiencias?.length) {
       data.experiencias = data.experiencias.map((exp) => ({
         ...exp,
-        admissao: exp.admissao ? new Date(exp.admissao) : new Date(),
+        admissao: exp.admissao
+          ? new Date(exp.admissao).toISOString()
+          : new Date().toISOString(),
         encerramento: exp.encerramento
-          ? new Date(exp.encerramento)
-          : new Date(),
+          ? new Date(exp.encerramento).toISOString()
+          : new Date().toISOString(),
       }));
     }
 

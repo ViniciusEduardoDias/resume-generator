@@ -9,11 +9,11 @@ import CardModel from "@/components/CardModel";
 import { useFormData } from "@/hooks/useFormData";
 
 const ColorPage = () => {
-  const { get, update } = useFormData();
+  const { clear, get, update } = useFormData();
   const router = useRouter();
   const [selectedColor, setSelectedColor] = useState("");
   const [selectedModel, setSelectedModel] = useState("");
-  const cores = ["yellow", "gray", "pink", "blue", "green"];
+  const cores = ["yellow", "gray", "pink", "blue", "green", "black"];
 
   const modelos = [
     { id: "modelo1", nome: "Clássico", imagem: "/previews/modelo1.jpg" },
@@ -66,7 +66,8 @@ const ColorPage = () => {
     );
 
     console.log(formData);
-    router.push("/");
+    clear();
+    setTimeout(() => router.push("/"), 1000);
   };
 
   return (

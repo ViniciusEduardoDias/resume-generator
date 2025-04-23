@@ -93,7 +93,7 @@ export default function FormacaoForm() {
             <option value="">Selecione um nível de Ensino</option>
             <option value="Ensino Fundamental">Ensino Fundamental</option>
             <option value="Ensino Médio">Ensino Médio</option>
-            <option value="Ensino Superior">Ensino Superior</option>
+            <option value="Técnico">Técnico</option>
             <option value="Graduação">Graduação</option>
             <option value="Bacharelado">Bacharelado</option>
             <option value="Licenciatura">Licenciatura</option>
@@ -115,7 +115,6 @@ export default function FormacaoForm() {
             })
           }
         />
-
         <button
           type="button"
           onClick={handleAddFormacao}
@@ -150,7 +149,7 @@ export default function FormacaoForm() {
                     onClick={() =>
                       setFormacoes(formacoes.filter((_, i) => i !== index))
                     }
-                    className="absolute top-3 right-3 text-white hover:underline text-sm"
+                    className="absolute top-1.5 right-1.5 text-white hover:underline text-sm"
                   >
                     <FaTrashAlt className="text-gray-500 hover:text-gray-800" />
                   </button>

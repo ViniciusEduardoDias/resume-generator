@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Document,
   Page,
@@ -7,6 +7,7 @@ import {
   StyleSheet,
   Image,
 } from "@react-pdf/renderer";
+import { useFormData } from "@/hooks/useFormData";
 
 // Tipagens
 type DadosPessoais = {
@@ -34,8 +35,8 @@ type Formacao = {
 type ExperienciaProfissional = {
   empresa: string;
   cargo: string;
-  admissao: Date;
-  encerramento: Date;
+  admissao: string;
+  encerramento: string;
   funcoes: string[];
 };
 
@@ -46,23 +47,23 @@ type FormDataCompleto = {
   experiencias?: ExperienciaProfissional[];
   foto?: string;
   modelo: string;
+  color: string;
 };
 
 // Estilos
 const styles = StyleSheet.create({
   page: {
-    padding: 24,
+    padding: 10,
     fontSize: 12,
     fontFamily: "Helvetica",
   },
   header: {
-    backgroundColor: "#333",
-    color: "#fff",
     padding: 16,
     textAlign: "center",
   },
   section: {
     marginTop: 20,
+    marginHorizontal: 10,
   },
   title: {
     fontSize: 16,
@@ -70,9 +71,11 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   row: {
+    padding: 10,
     flexDirection: "row",
     justifyContent: "space-between",
-    marginTop: 12,
+    color: "#FFFFFF",
+    alignItems: "center",
   },
   column: {
     flexDirection: "column",
@@ -91,23 +94,21 @@ const styles = StyleSheet.create({
     height: 150,
     borderRadius: 50,
     objectFit: "cover",
+    borderWidth: 4,
+    borderColor: "#FFFFFF",
+    borderStyle: "solid",
   },
 });
 
-// Lê os dados consolidados do localStorage
-const getFormDataFromStorage = (): FormDataCompleto | null => {
-  try {
-    const data = localStorage.getItem("formData");
-    return data ? JSON.parse(data) : null;
-  } catch (err) {
-    console.error("Erro ao buscar formData:", err);
-    return null;
-  }
-};
-
 // Componente PDF
 const CurriculoModelo01: React.FC = () => {
-  const formData = getFormDataFromStorage();
+  const { get } = useFormData();
+  const [formData, setFormData] = useState<FormDataCompleto | null>(null);
+
+  useEffect(() => {
+    const data = get();
+    setFormData(data);
+  }, [get]);
 
   if (!formData || !formData.dadosPessoais || !formData.objetivoProfissional) {
     return (
@@ -119,22 +120,50 @@ const CurriculoModelo01: React.FC = () => {
     );
   }
 
-  const { dadosPessoais, objetivoProfissional, formacoes, experiencias, foto } =
-    formData;
+  const {
+    dadosPessoais,
+    objetivoProfissional,
+    formacoes,
+    experiencias,
+    foto,
+    color,
+  } = formData;
+
+  const darkColors: Record<string, string> = {
+    yellow: "#b59f00",
+    gray: "#333333",
+    pink: "#800040",
+    blue: "#001f4d",
+    green: "#006400",
+    black: "#000000",
+  };
+
+  const headerStyle = {
+    ...styles.header,
+    backgroundColor: darkColors[color] || "#333",
+  };
 
   return (
     <Document>
       <Page size="A4" style={styles.page}>
-        {/* Cabeçalho */}
-        <View style={styles.header}>
-          <Text style={{ fontSize: 22 }}>{dadosPessoais.nome}</Text>
-          <Text>
-            {dadosPessoais.estadoCivil}, {dadosPessoais.idade} anos
-          </Text>
-        </View>
-        {/* Dados + Imagem */}
-        <View style={styles.row}>
+        {/* Foto + Dados Pessoais */}
+        <View
+          style={[
+            headerStyle,
+            styles.row,
+            { justifyContent: "space-around", gap: 8 },
+          ]}
+        >
+          {foto && (
+            // eslint-disable-next-line jsx-a11y/alt-text
+            <Image src={foto} style={styles.image} />
+          )}
           <View style={styles.column}>
+            <Text style={{ fontSize: 22 }}>{dadosPessoais.nome}</Text>
+
+            <Text>
+              {dadosPessoais.estadoCivil}, {dadosPessoais.idade} anos
+            </Text>
             <Text>
               <Text style={styles.bold}>Endereço:</Text>{" "}
               {dadosPessoais.endereco}
@@ -150,59 +179,61 @@ const CurriculoModelo01: React.FC = () => {
               {dadosPessoais.telefone}
             </Text>
           </View>
-
-          {foto && (
-            // eslint-disable-next-line jsx-a11y/alt-text
-            <Image src={foto} style={styles.image} />
+        </View>
+        <View style={styles.section}>
+          {/* Perfil Pessoal */}
+          <View style={styles.section}>
+            <Text style={styles.title}>PERFIL PESSOAL</Text>
+            <Text style={styles.textBlock}>
+              {objetivoProfissional.perfilPessoal}
+            </Text>
+          </View>
+          {/* Objetivo Profissional */}
+          <View style={styles.section}>
+            <Text style={styles.title}>OBJETIVO PROFISSIONAL</Text>
+            <Text style={styles.textBlock}>
+              {objetivoProfissional.objetivoProfissional}
+            </Text>
+          </View>
+          {/* Formação Acadêmica */}
+          {formacoes && formacoes.length > 0 && (
+            <View style={styles.section}>
+              <Text style={styles.title}>FORMAÇÃO ACADÊMICA</Text>
+              {formacoes.map((formacao, idx) => (
+                <View key={idx} style={styles.column}>
+                  <Text style={styles.bold}>
+                    {formacao.nivel}: {formacao.curso}
+                  </Text>
+                  <Text>
+                    {formacao.instituicao} • Conclusão:{" "}
+                    {new Date(formacao.conclusao).getFullYear()}
+                  </Text>
+                </View>
+              ))}
+            </View>
+          )}
+          {/* Experiência Profissional */}
+          {experiencias && experiencias.length > 0 && (
+            <View style={styles.section}>
+              <Text style={styles.title}>EXPERIÊNCIA PROFISSIONAL</Text>
+              {experiencias.map((exp, idx) => (
+                <View key={idx} style={{ marginBottom: 12 }}>
+                  <Text style={styles.bold}>{exp.empresa}</Text>
+                  <Text>
+                    {exp.cargo} | {new Date(exp.admissao).getFullYear()} -{" "}
+                    {new Date(exp.encerramento).getFullYear()}
+                  </Text>
+                  {exp.funcoes.length > 0 && (
+                    <>
+                      <Text style={styles.bold}>Funções:</Text>
+                      <Text> {exp.funcoes.join("\n• ")}</Text>
+                    </>
+                  )}
+                </View>
+              ))}
+            </View>
           )}
         </View>
-        {/* Perfil Pessoal */}
-        <View style={styles.section}>
-          <Text style={styles.title}>PERFIL PESSOAL</Text>
-          <Text style={styles.textBlock}>
-            {objetivoProfissional.perfilPessoal}
-          </Text>
-        </View>
-        {/* Objetivo Profissional */}
-        <View style={styles.section}>
-          <Text style={styles.title}>OBJETIVO PROFISSIONAL</Text>
-          <Text style={styles.textBlock}>
-            {objetivoProfissional.objetivoProfissional}
-          </Text>
-        </View>
-        {/* Formação Acadêmica */}
-        {formacoes && formacoes.length > 0 && (
-          <View style={styles.section}>
-            <Text style={styles.title}>FORMAÇÃO ACADÊMICA</Text>
-            {formacoes.map((formacao, idx) => (
-              <View key={idx} style={styles.column}>
-                <Text style={styles.bold}>
-                  {formacao.nivel}: {formacao.curso}
-                </Text>
-                <Text>
-                  {formacao.instituicao} • Conclusão: {formacao.conclusao}
-                </Text>
-              </View>
-            ))}
-          </View>
-        )}
-        {/* Experiência Profissional */}
-        {experiencias && experiencias.length > 0 && (
-          <View style={styles.section}>
-            <Text style={styles.title}>EXPERIÊNCIA PROFISSIONAL</Text>
-            {experiencias.map((exp, idx) => (
-              <View key={idx} style={{ marginBottom: 12 }}>
-                <Text style={styles.bold}>{exp.empresa}</Text>
-                <Text>
-                  {exp.cargo} | {new Date(exp.admissao).getFullYear()} -{" "}
-                  {new Date(exp.encerramento).getFullYear()}
-                </Text>
-                <Text style={styles.bold}>Funções:</Text>
-                <Text>• {exp.funcoes.join("\n• ")}</Text>
-              </View>
-            ))}
-          </View>
-        )}
       </Page>
     </Document>
   );

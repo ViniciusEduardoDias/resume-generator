@@ -29,7 +29,7 @@ export default function ExpForm() {
         if (!frase) return "";
         const primeiraLetra = frase[0].toUpperCase();
         const resto = frase.slice(1);
-        return `• ${primeiraLetra}${resto}`;
+        return `${primeiraLetra}${resto}`;
       })
       .filter(Boolean);
   };
@@ -167,14 +167,19 @@ export default function ExpForm() {
                     {new Date(exp.admissao).toLocaleDateString()} -{" "}
                     {new Date(exp.encerramento).toLocaleDateString()}
                   </p>
-                  <p>
-                    <strong>Funções:</strong>
-                  </p>
-                  <ul className="list-disc ml-6">
-                    {exp.funcoes.map((funcao, i) => (
-                      <li key={i}>{funcao}</li>
-                    ))}
-                  </ul>
+                  {exp.funcoes.length > 0 && (
+                    <>
+                      <p>
+                        <strong>Funções:</strong>
+                      </p>
+                      <ul className="list-disc ml-6">
+                        {exp.funcoes.map((funcao, i) => (
+                          <li key={i}>{funcao}</li>
+                        ))}
+                      </ul>
+                    </>
+                  )}
+
                   <button
                     type="button"
                     onClick={() =>
@@ -182,7 +187,7 @@ export default function ExpForm() {
                         experiencias.filter((_, i) => i !== index)
                       )
                     }
-                    className="absolute top-3 right-3 text-white hover:underline text-sm"
+                    className="absolute top-1.5 right-1.5 text-white hover:underline text-sm"
                   >
                     <FaTrashAlt className="text-gray-500 hover:text-gray-800" />
                   </button>

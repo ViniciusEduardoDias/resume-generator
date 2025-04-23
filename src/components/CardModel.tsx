@@ -2,7 +2,6 @@ import Image from "next/image";
 
 type CardModelProps = {
   model: string;
-  onclick: (newModel: string) => void;
   modelo: {
     id: string;
     nome: string;
@@ -10,12 +9,11 @@ type CardModelProps = {
   };
 };
 
-const CardModel = ({ model, onclick, modelo }: CardModelProps) => {
+const CardModel = ({ model, modelo }: CardModelProps) => {
   const isSelected = model === modelo.id;
 
   return (
     <div
-      onClick={() => onclick(modelo.id)}
       className={`border rounded-lg p-2 cursor-pointer transition hover:scale-110 ${
         isSelected ? "border-blue-500 ring-2 ring-blue-300" : "border-gray-300"
       }`}
