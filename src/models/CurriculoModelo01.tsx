@@ -106,7 +106,7 @@ const getFormDataFromStorage = (): FormDataCompleto | null => {
 };
 
 // Componente PDF
-const ModeloCurriculo: React.FC = () => {
+const CurriculoModelo01: React.FC = () => {
   const formData = getFormDataFromStorage();
 
   if (!formData || !formData.dadosPessoais || !formData.objetivoProfissional) {
@@ -208,4 +208,4 @@ const ModeloCurriculo: React.FC = () => {
   );
 };
 
-export default ModeloCurriculo;
+export default CurriculoModelo01;

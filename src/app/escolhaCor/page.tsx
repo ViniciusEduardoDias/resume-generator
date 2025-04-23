@@ -1,14 +1,18 @@
 "use client";
-
-import React, { useState } from "react";
+import { pdf } from "@react-pdf/renderer";
+import { saveAs } from "file-saver";
+import { modelComponents } from "@/models/pdfModels";
+import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import ColorsDiv from "@/components/ColorsDiv";
 import CardModel from "@/components/CardModel";
+import { useFormData } from "@/hooks/useFormData";
 
 const ColorPage = () => {
+  const { get, update } = useFormData();
   const router = useRouter();
-  const [color, setColor] = useState("");
-  const [model, setModel] = useState("");
+  const [selectedColor, setSelectedColor] = useState("");
+  const [selectedModel, setSelectedModel] = useState("");
   const cores = ["yellow", "gray", "pink", "blue", "green"];
 
   const modelos = [
@@ -16,19 +20,52 @@ const ColorPage = () => {
     { id: "modelo2", nome: "Moderno", imagem: "/previews/modelo2.jpg" },
   ];
 
-  const changeColor = (newColor: string) => {
-    setColor(newColor);
+  useEffect(() => {
+    const formData = get();
+    setSelectedColor(formData.color || "");
+    setSelectedModel(formData.modelo || "");
+  }, [get]);
+
+  const selectColor = (color: string) => {
+    setSelectedColor(color);
+    update({ color });
   };
 
-  const changeModel = (newModel: string) => {
-    setModel(newModel);
+  const selectModel = (model: string) => {
+    setSelectedModel(model);
+    update({ modelo: model });
   };
 
-  const createFile = () => {
-    console.log("Cor selecionada:", color);
-    console.log("modelo selecionado", model);
-    console.log(localStorage.getItem("FormData"));
+  const createFile = async () => {
+    const formData = get();
 
+    if (!formData || Object.keys(formData).length === 0) {
+      alert("Preencha os dados antes de gerar o currículo!");
+      return;
+    }
+
+    if (!formData.modelo) {
+      alert("Escolha um modelo antes de gerar o currículo!");
+      return;
+    }
+
+    const ModelComponent = modelComponents[formData.modelo];
+
+    if (!ModelComponent) {
+      alert("Modelo não encontrado!");
+      return;
+    }
+
+    const docComponent = (
+      <ModelComponent formData={formData} color={formData.color || "gray"} />
+    );
+    const blob = await pdf(docComponent).toBlob();
+    saveAs(
+      blob,
+      `${formData.dadosPessoais?.nome || "curriculo"}_curriculo.pdf`
+    );
+
+    console.log(formData);
     router.push("/");
   };
 
@@ -43,33 +80,55 @@ const ColorPage = () => {
             Selecione a paleta de cor para montar seu currículo
           </p>
         </div>
-        <div className="flex gap-2">
-          {cores.map((c) => (
-            <ColorsDiv key={c} color={c} onclick={changeColor} />
+
+        <div className="flex gap-4 flex-wrap">
+          {cores.map((color) => (
+            <div key={color} className="flex flex-col items-center gap-2">
+              <ColorsDiv color={color} />
+              <button
+                onClick={() => selectColor(color)}
+                className={`px-3 py-1 rounded text-white ${
+                  selectedColor === color ? "bg-blue-600" : "bg-gray-500"
+                } hover:opacity-90 transition`}
+              >
+                {selectedColor === color ? "Selecionado" : "Selecionar"}
+              </button>
+            </div>
           ))}
         </div>
+
         <p className="mt-4 text-gray-700">
-          Cor atual: <strong>{color}</strong>
+          Cor selecionada: <strong>{selectedColor}</strong>
         </p>
       </div>
-      <div className="mt-5">
+
+      <div className="mt-8">
         <h2 className="text-2xl font-bold text-gray-800 mb-4">
           Escolha o modelo
         </h2>
-        <div className="flex gap-4 flex-wrap">
+        <div className="flex gap-6 flex-wrap">
           {modelos.map((modelo) => (
-            <CardModel
-              key={modelo.id}
-              model={model}
-              onclick={changeModel}
-              modelo={modelo}
-            />
+            <div key={modelo.id} className="flex flex-col items-center gap-2">
+              <CardModel model={selectedModel} modelo={modelo} />
+              <button
+                onClick={() => selectModel(modelo.id)}
+                className={`px-3 py-1 rounded text-white ${
+                  selectedModel === modelo.id ? "bg-blue-600" : "bg-gray-500"
+                } hover:opacity-90 transition`}
+              >
+                {selectedModel === modelo.id ? "Selecionado" : "Selecionar"}
+              </button>
+            </div>
           ))}
         </div>
+
+        <p className="mt-4 text-gray-700">
+          Modelo atual: <strong>{selectedModel}</strong>
+        </p>
       </div>
 
       <button
-        className="mt-4 w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition"
+        className="mt-6 w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition"
         onClick={createFile}
       >
         Gerar PDF

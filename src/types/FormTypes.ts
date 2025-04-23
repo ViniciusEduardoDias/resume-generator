@@ -35,4 +35,5 @@ export type FormDataCompleto = {
   experiencias?: ExperienciaProfissional[];
   foto?: string;
   modelo: string;
+  color: string;
 };
