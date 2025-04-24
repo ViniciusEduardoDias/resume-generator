@@ -97,7 +97,7 @@ export default function ExpForm() {
           onChange={(e) =>
             setExperiencia({
               ...experiencia,
-              empresa: formatText(e.target.value),
+              empresa: e.target.value,
             })
           }
         />
@@ -110,7 +110,7 @@ export default function ExpForm() {
           onChange={(e) =>
             setExperiencia({
               ...experiencia,
-              cargo: formatText(e.target.value),
+              cargo: e.target.value,
             })
           }
         />
@@ -230,7 +230,7 @@ export default function ExpForm() {
           type="submit"
           className="mt-4 w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition"
         >
-          {experiencias.length && experiencias.length === 0
+          {experiencias.length && experiencias.length > 0
             ? "Avançar"
             : "Avançar sem adicionar"}
         </button>

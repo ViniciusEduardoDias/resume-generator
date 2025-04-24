@@ -53,55 +53,66 @@ type FormDataCompleto = {
 // Estilos
 const styles = StyleSheet.create({
   page: {
-    padding: 10,
+    flexDirection: "row",
     fontSize: 12,
     fontFamily: "Helvetica",
+    padding: 20,
   },
-  header: {
-    padding: 16,
+  sidebar: {
+    width: "40%",
+    height: "100%",
+    backgroundColor: "#333333",
+    color: "#FFFFFF",
+    padding: 10,
+    flexDirection: "column",
+    justifyContent: "flex-start",
+    alignItems: "center",
+    textWrap: "nowrap",
+  },
+  sidebarCentered: {
     textAlign: "center",
+    marginTop: 4,
   },
-  section: {
-    marginTop: 20,
-    marginHorizontal: 10,
+  content: {
+    width: "60%",
+    padding: 10,
   },
   title: {
     fontSize: 16,
     fontWeight: "bold",
     marginBottom: 8,
+    textWrap: "nowrap",
   },
-  row: {
-    padding: 10,
-    flexDirection: "row",
-    justifyContent: "space-between",
-    color: "#FFFFFF",
-    alignItems: "center",
-  },
-  column: {
-    flexDirection: "column",
-    marginTop: 10,
+  textSmall: {
+    fontSize: 8,
+    marginTop: 4,
+    textWrap: "nowrap",
   },
   textBlock: {
     marginTop: 6,
+    marginBottom: 8,
     textAlign: "justify",
-    lineHeight: 1.0,
+    lineHeight: 1,
+    textWrap: "nowrap",
   },
   bold: {
     fontWeight: "bold",
   },
   image: {
-    width: 150,
-    height: 150,
-    borderRadius: 75,
+    width: 120,
+    height: 120,
+    borderRadius: 60,
     objectFit: "cover",
-    borderWidth: 20,
-    borderColor: "#FFFFFF",
-    borderStyle: "solid",
+    marginBottom: 10,
+  },
+  spacedView: {
+    marginBottom: 10,
+    alignSelf: "flex-start",
   },
 });
 
 // Componente PDF
-const CurriculoModelo01: React.FC = () => {
+const CurriculoModelo02: React.FC = () => {
   const { get } = useFormData();
   const [formData, setFormData] = useState<FormDataCompleto | null>(null);
 
@@ -138,8 +149,8 @@ const CurriculoModelo01: React.FC = () => {
     black: "#000000",
   };
 
-  const headerStyle = {
-    ...styles.header,
+  const sidebarStyle = {
+    ...styles.sidebar,
     backgroundColor:
       (color && darkColors[color as keyof typeof darkColors]) || "#333333",
   };
@@ -147,61 +158,53 @@ const CurriculoModelo01: React.FC = () => {
   return (
     <Document>
       <Page size="A4" style={styles.page}>
-        {/* Foto + Dados Pessoais */}
-        <View
-          style={[
-            headerStyle,
-            styles.row,
-            { justifyContent: "space-around", gap: 8 },
-          ]}
-        >
+        <View style={sidebarStyle}>
           {foto && (
             // eslint-disable-next-line jsx-a11y/alt-text
             <Image src={foto} style={styles.image} />
           )}
-          <View style={styles.column}>
-            <Text style={{ fontSize: 22 }}>{dadosPessoais.nome}</Text>
-
-            <Text>
-              {dadosPessoais.estadoCivil}, {dadosPessoais.idade} anos
-            </Text>
-            <Text>
-              <Text style={styles.bold}>Endereço:</Text>{" "}
-              {dadosPessoais.endereco}
-            </Text>
-            <Text>
-              <Text style={styles.bold}>Cidade:</Text> {dadosPessoais.cidade}
-            </Text>
-            <Text>
-              <Text style={styles.bold}>Email:</Text> {dadosPessoais.email}
-            </Text>
-            <Text>
-              <Text style={styles.bold}>Telefone:</Text>{" "}
-              {dadosPessoais.telefone}
-            </Text>
+          <Text style={{ fontSize: 22, ...styles.sidebarCentered }}>
+            {dadosPessoais.nome}
+          </Text>
+          <Text style={styles.sidebarCentered}>
+            {dadosPessoais.estadoCivil}, {dadosPessoais.idade} anos
+          </Text>
+          <View style={styles.spacedView}>
+            <Text style={[styles.textSmall, styles.bold]}>Endereço:</Text>
+            <Text>{dadosPessoais.endereco}</Text>
+          </View>
+          <View style={styles.spacedView}>
+            <Text style={[styles.textSmall, styles.bold]}>Cidade:</Text>
+            <Text>{dadosPessoais.cidade}</Text>
+          </View>
+          <View style={styles.spacedView}>
+            <Text style={[styles.textSmall, styles.bold]}>Email:</Text>
+            <Text>{dadosPessoais.email}</Text>
+          </View>
+          <View style={styles.spacedView}>
+            <Text style={[styles.textSmall, styles.bold]}>Telefone:</Text>
+            <Text>{dadosPessoais.telefone}</Text>
           </View>
         </View>
-        <View style={styles.section}>
-          {/* Perfil Pessoal */}
-          <View style={styles.section}>
+
+        <View style={styles.content}>
+          <View>
             <Text style={styles.title}>PERFIL PESSOAL</Text>
             <Text style={styles.textBlock}>
               {objetivoProfissional.perfilPessoal}
             </Text>
           </View>
-          {/* Objetivo Profissional */}
-          <View style={styles.section}>
+          <View>
             <Text style={styles.title}>OBJETIVO PROFISSIONAL</Text>
             <Text style={styles.textBlock}>
               {objetivoProfissional.objetivoProfissional}
             </Text>
           </View>
-          {/* Formação Acadêmica */}
           {formacoes && formacoes.length > 0 && (
-            <View style={styles.section}>
+            <View>
               <Text style={styles.title}>FORMAÇÃO ACADÊMICA</Text>
               {formacoes.map((formacao, idx) => (
-                <View key={idx} style={styles.column}>
+                <View key={idx} style={{ marginBottom: 10 }}>
                   <Text style={styles.bold}>
                     {formacao.nivel}: {formacao.curso}
                   </Text>
@@ -213,9 +216,8 @@ const CurriculoModelo01: React.FC = () => {
               ))}
             </View>
           )}
-          {/* Experiência Profissional */}
           {experiencias && experiencias.length > 0 && (
-            <View style={styles.section}>
+            <View>
               <Text style={styles.title}>EXPERIÊNCIA PROFISSIONAL</Text>
               {experiencias.map((exp, idx) => (
                 <View key={idx} style={{ marginBottom: 12 }}>
@@ -225,10 +227,11 @@ const CurriculoModelo01: React.FC = () => {
                     {new Date(exp.encerramento).getFullYear()}
                   </Text>
                   {exp.funcoes.length > 0 && (
-                    <>
-                      <Text style={styles.bold}>Funções:</Text>
-                      <Text> {exp.funcoes.join("\n• ")}</Text>
-                    </>
+                    <View style={{ marginTop: 4 }}>
+                      {exp.funcoes.map((funcao, funcIdx) => (
+                        <Text key={funcIdx}>• {funcao}</Text>
+                      ))}
+                    </View>
                   )}
                 </View>
               ))}
@@ -240,4 +243,4 @@ const CurriculoModelo01: React.FC = () => {
   );
 };
 
-export default CurriculoModelo01;
+export default CurriculoModelo02;

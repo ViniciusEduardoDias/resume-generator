@@ -95,6 +95,7 @@ export default function FormacaoForm() {
             <option value="Ensino Médio">Ensino Médio</option>
             <option value="Técnico">Técnico</option>
             <option value="Graduação">Graduação</option>
+            <option value="Tecnologo">Técnologo</option>
             <option value="Bacharelado">Bacharelado</option>
             <option value="Licenciatura">Licenciatura</option>
             <option value="Pós-Graduação">Pós-Graduação</option>
@@ -105,7 +106,7 @@ export default function FormacaoForm() {
         <Input
           type="date"
           name="conclusao"
-          text="Data de Conclusão"
+          text="Data ou previsão de conclusão"
           placeholder="Ano de Conclusão"
           value={formacao.conclusao}
           onChange={(e) =>
