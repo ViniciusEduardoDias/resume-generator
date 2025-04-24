@@ -22,6 +22,14 @@ export default function ExpForm() {
     funcoes: [],
   });
 
+  function formatText(text: string) {
+    return text
+      .trim()
+      .replace(/\s*([.,;:!?])\s*/g, "$1 ")
+      .replace(/\.\s*(\w)/g, (_, p1) => `. ${p1.toUpperCase()}`)
+      .replace(/(^\w)/, (match) => match.toUpperCase());
+  }
+
   const formatarFuncoes = (funcoes: string[]) => {
     return funcoes
       .map((f) => {
@@ -45,6 +53,34 @@ export default function ExpForm() {
     router.push("/foto");
   };
 
+  const handleAddExperience = () => {
+    if (
+      !experiencia.empresa ||
+      !experiencia.cargo ||
+      !experiencia.admissao ||
+      !experiencia.encerramento
+    ) {
+      alert("Preencha todos os campos obrigatórios antes de adicionar!");
+      return;
+    }
+
+    const experienciaFormatada = {
+      ...experiencia,
+      empresa: formatText(experiencia.empresa),
+      cargo: formatText(experiencia.cargo),
+      funcoes: formatarFuncoes(experiencia.funcoes),
+    };
+
+    setExperiencias([...experiencias, experienciaFormatada]);
+    setExperiencia({
+      empresa: "",
+      cargo: "",
+      admissao: "",
+      encerramento: "",
+      funcoes: [],
+    });
+  };
+
   return (
     <section className="max-w-2xl p-6 mx-auto bg-white rounded-xl shadow-md">
       <h2 className="text-2xl font-bold text-gray-800 mb-4">
@@ -59,7 +95,10 @@ export default function ExpForm() {
           placeholder="Nome da Empresa"
           value={experiencia.empresa}
           onChange={(e) =>
-            setExperiencia({ ...experiencia, empresa: e.target.value })
+            setExperiencia({
+              ...experiencia,
+              empresa: formatText(e.target.value),
+            })
           }
         />
         <Input
@@ -69,7 +108,10 @@ export default function ExpForm() {
           placeholder="Cargo de Registro"
           value={experiencia.cargo}
           onChange={(e) =>
-            setExperiencia({ ...experiencia, cargo: e.target.value })
+            setExperiencia({
+              ...experiencia,
+              cargo: formatText(e.target.value),
+            })
           }
         />
         <Input
@@ -116,20 +158,7 @@ export default function ExpForm() {
 
         <button
           type="button"
-          onClick={() => {
-            const experienciaFormatada = {
-              ...experiencia,
-              funcoes: formatarFuncoes(experiencia.funcoes),
-            };
-            setExperiencias([...experiencias, experienciaFormatada]);
-            setExperiencia({
-              empresa: "",
-              cargo: "",
-              admissao: "",
-              encerramento: "",
-              funcoes: [],
-            });
-          }}
+          onClick={handleAddExperience}
           className="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition"
         >
           Adicionar Experiência
@@ -138,9 +167,9 @@ export default function ExpForm() {
         {experiencias.length === 0 && (
           <div className="mt-6 bg-yellow-100 text-yellow-700 p-4 rounded-md">
             <p>
-              Você ainda não adicionou nenhuma experiência profissional.
-              Capriche no preenchimento do seu perfil para deixar o documento
-              mais completo e impressionante!
+              Você ainda não adicionou nenhuma experiência profissional. Caso
+              não tenha experiências, você pode avançar sem preencher esta
+              etapa.
             </p>
           </div>
         )}
@@ -199,9 +228,11 @@ export default function ExpForm() {
 
         <button
           type="submit"
-          className="w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition"
+          className="mt-4 w-full bg-blue-600 text-white py-2 rounded-md hover:bg-blue-700 transition"
         >
-          Avançar
+          {experiencias.length && experiencias.length === 0
+            ? "Avançar"
+            : "Avançar sem adicionar"}
         </button>
       </form>
     </section>

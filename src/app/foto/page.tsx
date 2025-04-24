@@ -94,6 +94,12 @@ const FotoPage = () => {
               className="hidden"
             />
           </label>
+          <button
+            onClick={handlePular}
+            className="bg-gray-400 text-white px-4 py-2 rounded"
+          >
+            Pular etapa
+          </button>
         </div>
       ) : (
         <div className="relative w-[300px] h-[300px] bg-gray-200 rounded-full overflow-hidden">
@@ -118,12 +124,6 @@ const FotoPage = () => {
             className="bg-blue-600 text-white px-4 py-2 rounded"
           >
             Avançar
-          </button>
-          <button
-            onClick={handlePular}
-            className="bg-gray-400 text-white px-4 py-2 rounded"
-          >
-            Pular etapa
           </button>
         </div>
       )}

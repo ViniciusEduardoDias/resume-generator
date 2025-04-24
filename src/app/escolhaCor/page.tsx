@@ -1,4 +1,5 @@
 "use client";
+
 import { pdf } from "@react-pdf/renderer";
 import { saveAs } from "file-saver";
 import { modelComponents } from "@/models/pdfModels";
@@ -8,23 +9,34 @@ import ColorsDiv from "@/components/ColorsDiv";
 import CardModel from "@/components/CardModel";
 import { useFormData } from "@/hooks/useFormData";
 
+// Array modelos movido para fora do componente
+const modelos = [
+  { id: "modelo1", nome: "Clássico", imagem: "/previews/modelo1.jpg" },
+  { id: "modelo2", nome: "Moderno", imagem: "/previews/modelo2.jpg" },
+];
+
 const ColorPage = () => {
   const { clear, get, update } = useFormData();
   const router = useRouter();
   const [selectedColor, setSelectedColor] = useState("");
-  const [selectedModel, setSelectedModel] = useState("");
+  const [selectedModel, setSelectedModel] = useState({ id: "", name: "" });
   const cores = ["yellow", "gray", "pink", "blue", "green", "black"];
-
-  const modelos = [
-    { id: "modelo1", nome: "Clássico", imagem: "/previews/modelo1.jpg" },
-    { id: "modelo2", nome: "Moderno", imagem: "/previews/modelo2.jpg" },
-  ];
 
   useEffect(() => {
     const formData = get();
     console.log("Dados recuperados:", formData);
-    setSelectedColor(formData.color || "");
-    setSelectedModel(formData.modelo || "");
+
+    setSelectedColor(formData?.color || "");
+
+    // Encontrar o modelo correspondente pelo ID
+    const selectedModelo = modelos.find(
+      (modelo) => modelo.id === formData?.modelo
+    );
+    setSelectedModel(
+      selectedModelo
+        ? { id: selectedModelo.id, name: selectedModelo.nome }
+        : { id: "", name: "" }
+    );
   }, [get]);
 
   const selectColor = (color: string) => {
@@ -32,9 +44,9 @@ const ColorPage = () => {
     update({ color });
   };
 
-  const selectModel = (model: string) => {
-    setSelectedModel(model);
-    update({ modelo: model });
+  const selectModel = (modelId: string, modelName: string) => {
+    setSelectedModel({ id: modelId, name: modelName });
+    update({ modelo: modelId });
   };
 
   const createFile = async () => {
@@ -87,7 +99,7 @@ const ColorPage = () => {
           {cores.map((color) => (
             <div
               key={color}
-              className="flex flex-col items-center gap-2"
+              className="flex flex-col items-center gap-2 cursor-pointer"
               onClick={() => selectColor(color)}
             >
               <ColorsDiv color={color} />
@@ -96,7 +108,7 @@ const ColorPage = () => {
         </div>
 
         <p className="mt-4 text-gray-700">
-          Cor selecionada: <strong>{selectedColor}</strong>
+          Cor selecionada: <strong>{selectedColor || "Nenhuma"}</strong>
         </p>
       </div>
 
@@ -108,16 +120,17 @@ const ColorPage = () => {
           {modelos.map((modelo) => (
             <div
               key={modelo.id}
-              onClick={() => selectModel(modelo.id)}
-              className="flex flex-col items-center gap-2"
+              onClick={() => selectModel(modelo.id, modelo.nome)}
+              className="flex flex-col items-center gap-2 cursor-pointer"
             >
-              <CardModel model={selectedModel} modelo={modelo} />
+              <CardModel model={selectedModel.id} modelo={modelo} />
             </div>
           ))}
         </div>
 
         <p className="mt-4 text-gray-700">
-          Modelo atual: <strong>{selectedModel}</strong>
+          Modelo atual:{" "}
+          <strong>{selectedModel.name || "Nenhum modelo selecionado"}</strong>
         </p>
       </div>
 

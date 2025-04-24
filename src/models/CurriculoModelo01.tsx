@@ -227,7 +227,7 @@ const CurriculoModelo01: React.FC = () => {
                   {exp.funcoes.length > 0 && (
                     <>
                       <Text style={styles.bold}>Funções:</Text>
-                      <Text> {exp.funcoes.join("\n• ")}</Text>
+                      <Text> {exp.funcoes.join("\n ")}</Text>
                     </>
                   )}
                 </View>
