@@ -79,12 +79,12 @@ const styles = StyleSheet.create({
   },
   column: {
     flexDirection: "column",
-    gap: 4,
+    marginTop: 10,
   },
   textBlock: {
     marginTop: 6,
     textAlign: "justify",
-    lineHeight: 1.4,
+    lineHeight: 1.0,
   },
   bold: {
     fontWeight: "bold",
@@ -92,9 +92,9 @@ const styles = StyleSheet.create({
   image: {
     width: 150,
     height: 150,
-    borderRadius: 50,
+    borderRadius: 75,
     objectFit: "cover",
-    borderWidth: 4,
+    borderWidth: 20,
     borderColor: "#FFFFFF",
     borderStyle: "solid",
   },

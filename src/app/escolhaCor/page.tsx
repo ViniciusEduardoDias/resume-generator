@@ -22,6 +22,7 @@ const ColorPage = () => {
 
   useEffect(() => {
     const formData = get();
+    console.log("Dados recuperados:", formData);
     setSelectedColor(formData.color || "");
     setSelectedModel(formData.modelo || "");
   }, [get]);
