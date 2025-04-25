@@ -42,28 +42,29 @@ O usuário pode:
 │   └── globals.css
 └── types
     └── formTypes.ts
-bash
-Copiar
-Editar
+
 ```
 
 ## 📝 Como Usar
 
 1. Clone o repositório:
+
    ```bash
    git clone https://github.com/seu-usuario/gerador-curriculo-pdf.git
-   Instale as dependências:
+
    ```
 
-```bash
-npm install
-```
+2. Instale as dependências:
 
-Rode o projeto:
+   ```bash
+   npm install
+   ```
 
-```bash
-npm run dev
-```
+3. Rode o projeto:
+
+   ```bash
+   npm run dev
+   ```
 
 Acesse http://localhost:3000 no navegador.
 
