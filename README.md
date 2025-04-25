@@ -1,36 +1,92 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 📄 Gerador de Currículo em PDF
 
-## Getting Started
+![Screenshot App](./public/images/screenshot.JPG)
 
-First, run the development server:
+Projeto desenvolvido em **React + Next.js + TypeScript**, com geração de currículo em PDF utilizando **@react-pdf/renderer**.
+
+## 📌 Descrição
+
+Este projeto permite que o usuário preencha suas informações profissionais em um formulário multi-etapas com opção de foto e uma paleta de cores que, ao final, gera seu currículo personalizado em PDF.
+
+O usuário pode:
+
+- Preencher seus **dados pessoais**
+- Definir seu **perfil pessoal e objetivo profissional**
+- Informar sua **formação acadêmica**
+- Adicionar suas **experiências profissionais**
+- Fazer upload de uma **foto de perfil**
+- Escolher o **modelo de currículo**
+- Personalizar a **cor do cabeçalho**
+
+## 🚀 Tecnologias Utilizadas
+
+- [React](https://reactjs.org/)
+- [Next.js](https://nextjs.org/)
+- [TypeScript](https://www.typescriptlang.org/)
+- [Tailwind CSS](https://tailwindcss.com/)
+- [@react-pdf/renderer](https://react-pdf.org/)
+
+## 📂 Estrutura do Projeto
+
+```bash
+📁 src
+├── components
+│   └── CurriculoModelo01.tsx
+├── hooks
+│   └── useFormData.ts
+├── pages
+│   ├── index.tsx
+│   ├── preview.tsx
+│   └── generate.tsx
+├── styles
+│   └── globals.css
+└── types
+    └── formTypes.ts
+bash
+Copiar
+Editar
+```
+
+## 📝 Como Usar
+
+1. Clone o repositório:
+   ```bash
+   git clone https://github.com/seu-usuario/gerador-curriculo-pdf.git
+   Instale as dependências:
+   ```
+
+```bash
+npm install
+```
+
+Rode o projeto:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Acesse http://localhost:3000 no navegador.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 🖨️ Gerando o PDF
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Após preencher todas as informações:
 
-## Learn More
+Clique em "Gerar PDF"
 
-To learn more about Next.js, take a look at the following resources:
+O PDF será gerado dinamicamente e será feito o download.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 📦 Dependências Principais
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+@react-pdf/renderer
 
-## Deploy on Vercel
+react
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+next
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+typescript
+
+tailwindcss
+
+## 📄 Licença
+
+Projeto desenvolvido para fins acadêmicos e de portfólio. Sinta-se à vontade para usar como base para seus projetos.
